@@ -32,4 +32,13 @@ public class ExampleTest {
         ba.printBookList();
         assertThat(os.toString(), is(equalTo("book1, book2, book3, book4, that's all the books we have!")));
     }
+
+    @Test
+    public void testBookListInDepth() {
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(os);
+        System.setOut(ps);
+        ba.printBookListInDepth();
+        assertThat(os.toString(), is(equalTo("book1 | by me | 1982\nbook2 | by someone else | 1888\nbook3 | by my mom | 1969\nbook4 | by my sister | 1990\n")));
+    }
 }
