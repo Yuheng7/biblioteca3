@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import java.io.PrintStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,23 +9,33 @@ import java.util.Collection;
 
 
 public class BibliotecaApp {
+    Menu menu;
     ArrayList<Book> books;
+    private PrintStream ps;
+    InputTaker asker;
 
-    public BibliotecaApp() {
-        books = new ArrayList<Book>(Arrays.asList(new Book("book1"),new Book("book2"), new Book("book3"), new Book("book4")));
+    public BibliotecaApp(ArrayList<Book> books, PrintStream ps, InputTaker asker) {
+        this.books = books;
+        this.menu = new Menu(books, ps);
+        this.ps = ps;
+        this.asker = asker;
     }
 
 
 
     public void printWelcome(PrintStream printStream) {
-        System.out.print("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bagalore!");
+        this.ps.print("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bagalore!\n");
     }
 
-    public void printBookList() {
-        for (Book book: books) {
-            System.out.print(book.name);
-            System.out.print(", ");
+    public void beginMenu() {
+        boolean running = true;
+        while (running == true) {
+            this.menu.printOptions();
+            running = this.menu.carryOutUserOrder();
         }
-        System.out.print("that's all the books we have!");
+        this.books = this.menu.returnUpdatedBookList();
     }
+
+
+
 }

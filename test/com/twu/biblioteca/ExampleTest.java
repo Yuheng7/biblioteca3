@@ -131,10 +131,12 @@ public class ExampleTest {
 //        for (Book book : books) {
 //            this.ps.println(book.toStringDetailed());
 //        }
-        assertThat(menu.books, is(equalTo(new ArrayList<Book>(Arrays.asList(
-                new Book("book2", "by someone else", 1888),
-                new Book("book3", "by my mom", 1969),
-                new Book("book4", "by my sister", 1990))))));
+
+        String booksDetailed = "";
+        for (Book book : menu.books) {
+            booksDetailed = booksDetailed + book.toStringDetailed();
+        }
+        assertThat(booksDetailed, is(equalTo("book2 | by someone else | 1888book3 | by my mom | 1969book4 | by my sister | 1990")));
 
     }
 
@@ -145,10 +147,12 @@ public class ExampleTest {
         when(asker.ask("What is the author of the book you would like to return?")).thenReturn("by me");
         when(asker.ask("What is the publication year of the book you would like to return?")).thenReturn("1982");
         menu.getBookReturnFromUser(asker);
-        assertThat(menu.books, is(equalTo(new ArrayList<Book>(Arrays.asList(new Book("book2", "by someone else", 1888),
-                new Book("book2", "by someone else", 1888),
-                new Book("book3", "by my mom", 1969),
-                new Book("book4", "by my sister", 1990))))));
+        //really this should be tested as the books and their details printed out, but, will do this in a bit (same with the one below this)
+        String booksDetailed = "";
+        for (Book book : menu.books) {
+            booksDetailed = booksDetailed + book.toStringDetailed();
+        }
+        assertThat(booksDetailed, is(equalTo("book1 | by me | 1982book2 | by someone else | 1888book3 | by my mom | 1969book4 | by my sister | 1990")));
     }
 
     @Test
